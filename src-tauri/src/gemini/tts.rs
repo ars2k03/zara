@@ -23,7 +23,6 @@ pub async fn speak(app: AppHandle, api_key: &str, text: &str) -> AppResult<()> {
         "generationConfig": {
             "responseModalities": ["AUDIO"],
             "speechConfig": {
-                "languageCode": "bn-BD",
                 "voiceConfig": {
                     "prebuiltVoiceConfig": {
                         "voiceName": TTS_VOICE
