@@ -1,16 +1,11 @@
 [package]
 name = "zara"
 version = "0.1.0"
-description = "A Tauri App"
+description = "Zara voice assistant"
 authors = ["you"]
 edition = "2024"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "zara_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
@@ -23,9 +18,17 @@ tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 dotenvy = "0.15"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
+futures-util = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+base64 = "0.22"
+thiserror = "2"
+url = "2"
+urlencoding = "2"
+rodio = { version = "0.20", default-features = true }
+cpal = "0.15"
 
-
-# Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
 [profile.release]
 codegen-units = 1
 lto = true

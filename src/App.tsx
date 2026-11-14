@@ -1,11 +1,8 @@
-import "./App.css";
+import { VoiceScreen } from "./components/VoiceScreen";
+import "./styles/voice.css";
 
 function App() {
-  return (
-    <main className="container">
-      <h1>Zara</h1>
-    </main>
-  );
+  return <VoiceScreen />;
 }
 
 export default App;

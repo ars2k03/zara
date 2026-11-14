@@ -1,0 +1,64 @@
+import { ListeningIndicator } from "./ListeningIndicator";
+import { SpeechBubble } from "./SpeechBubble";
+import { useVoiceSession, type VoicePhase } from "../hooks/useVoiceSession";
+
+function phaseLabel(phase: VoicePhase) {
+  switch (phase) {
+    case "boot":
+      return "শুরু হচ্ছে";
+    case "missing-keys":
+      return "কী লাগবে";
+    case "greeting":
+      return "শুভেচ্ছা";
+    case "listening":
+      return "শুনছি";
+    case "thinking":
+      return "ভাবছি";
+    case "speaking":
+      return "বলছি";
+    case "error":
+      return "সমস্যা";
+  }
+}
+
+export function VoiceScreen() {
+  const { phase, status, interim, finalText, reply, error } = useVoiceSession();
+  const userText = `${finalText} ${interim}`.trim();
+  const showUser = Boolean(userText) && (phase === "listening" || phase === "thinking" || phase === "speaking");
+  const showAssistant = Boolean(reply) && (phase === "greeting" || phase === "speaking");
+
+  return (
+    <main className="voice-screen">
+      <div className="voice-glow" />
+      <header className="voice-brand">
+        <p className="voice-kicker">ভয়েস অ্যাসিস্ট্যান্ট</p>
+        <h1>Zara</h1>
+        <p className="voice-phase">{phaseLabel(phase)}</p>
+      </header>
+
+      <ListeningIndicator active={phase === "listening"} />
+
+      <section className="voice-copy" aria-live="polite">
+        {phase === "missing-keys" && status && (
+          <div className="voice-keys">
+            <p>`.env` ফাইলে এই কীগুলো দাও, তারপর অ্যাপ রিস্টার্ট করো।</p>
+            <ul>
+              {status.keys.map((key) => (
+                <li key={key.name} data-set={key.set}>
+                  {key.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {phase === "error" && error && <p className="voice-error">{error}</p>}
+
+        <div className="speech-stack">
+          {showUser && <SpeechBubble role="user" text={userText} />}
+          {showAssistant && <SpeechBubble role="assistant" text={reply} />}
+        </div>
+      </section>
+    </main>
+  );
+}

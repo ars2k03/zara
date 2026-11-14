@@ -1,11 +1,26 @@
+mod audio;
+mod commands;
 mod config;
+mod error;
+mod gemini;
+mod providers;
+mod state;
+
+use state::AppState;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     config::load();
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![config::env_status])
+        .manage(AppState::default())
+        .invoke_handler(tauri::generate_handler![
+            config::env_status,
+            commands::stt_start,
+            commands::stt_stop,
+            commands::tts_speak,
+            commands::llm_reply,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
