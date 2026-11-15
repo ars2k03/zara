@@ -15,7 +15,7 @@ use crate::error::{AppError, AppResult};
 use crate::state::AppState;
 
 const TTS_MODEL: &str = "models/gemini-3.1-flash-live-preview";
-const TTS_VOICE: &str = "Aoede";
+const TTS_VOICE: &str = "Zephyr";
 const TTS_SAMPLE_RATE: u32 = 24_000;
 const MAX_SEGMENT_CHARS: usize = 1500;
 const IDLE_TIMEOUT_MS: u64 = 15_000;
