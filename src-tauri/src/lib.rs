@@ -19,6 +19,7 @@ pub fn run() {
             commands::stt_start,
             commands::stt_stop,
             commands::tts_speak,
+            commands::tts_stop,
             commands::llm_reply,
         ])
         .run(tauri::generate_context!())

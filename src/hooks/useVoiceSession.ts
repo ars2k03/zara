@@ -10,6 +10,7 @@ import {
   sttStart,
   sttStop,
   ttsSpeak,
+  ttsStop,
   type ChatMessage,
   type EnvStatus,
 } from "../lib/tauri";
@@ -222,6 +223,7 @@ export function useVoiceSession() {
 
     return () => {
       controller.abort();
+      void ttsStop();
       generationRef.current += 1;
     };
   }, []);

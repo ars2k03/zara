@@ -41,6 +41,10 @@ export async function ttsSpeak(text: string, onStart?: () => void) {
   }
 }
 
+export function ttsStop() {
+  return invoke<void>("tts_stop");
+}
+
 export function onTtsStart(handler: () => void): Promise<UnlistenFn> {
   return listen("tts://start", () => handler());
 }

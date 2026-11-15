@@ -19,8 +19,13 @@ pub async fn stt_stop(state: State<'_, AppState>) -> AppResult<String> {
 }
 
 #[tauri::command]
-pub async fn tts_speak(app: AppHandle, text: String) -> AppResult<()> {
-    tts::speak(app, text).await
+pub async fn tts_speak(app: AppHandle, state: State<'_, AppState>, text: String) -> AppResult<()> {
+    tts::speak(app, state, text).await
+}
+
+#[tauri::command]
+pub async fn tts_stop(state: State<'_, AppState>) -> AppResult<()> {
+    tts::stop(state).await
 }
 
 #[tauri::command]
