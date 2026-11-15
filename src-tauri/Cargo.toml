@@ -1,8 +1,10 @@
 [package]
 name = "zara"
 version = "0.1.0"
-description = "Zara voice assistant"
-authors = ["you"]
+description = "Bangla-first desktop voice assistant"
+authors = ["ars2k03"]
+license = "MIT"
+repository = "https://github.com/ars2k03/zara"
 edition = "2024"
 
 [lib]

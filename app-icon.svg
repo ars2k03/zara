@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Zara">
+  <defs>
+    <linearGradient id="zara-orb" x1="224" y1="192" x2="800" y2="864" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b7e0c4"/>
+      <stop offset="55%" stop-color="#7db892"/>
+      <stop offset="100%" stop-color="#4f8f6a"/>
+    </linearGradient>
+    <linearGradient id="zara-wave" x1="144" y1="320" x2="880" y2="704" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#eef3ef"/>
+      <stop offset="100%" stop-color="#b7e0c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="240" fill="#0f1412"/>
+  <circle cx="512" cy="512" r="288" fill="url(#zara-orb)" opacity="0.22"/>
+  <circle cx="512" cy="512" r="176" fill="url(#zara-orb)"/>
+  <circle cx="512" cy="512" r="80" fill="#eef3ef"/>
+  <path
+    d="M272 416c64-80 144-128 240-128s176 48 240 128"
+    fill="none"
+    stroke="url(#zara-wave)"
+    stroke-width="40"
+    stroke-linecap="round"
+  />
+  <path
+    d="M208 336c88-112 192-176 304-176s216 64 304 176"
+    fill="none"
+    stroke="url(#zara-wave)"
+    stroke-width="32"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+  <path
+    d="M272 608c64 80 144 128 240 128s176-48 240-128"
+    fill="none"
+    stroke="url(#zara-wave)"
+    stroke-width="40"
+    stroke-linecap="round"
+  />
+  <path
+    d="M208 688c88 112 192 176 304 176s216-64 304-176"
+    fill="none"
+    stroke="url(#zara-wave)"
+    stroke-width="32"
+    stroke-linecap="round"
+    opacity="0.55"
+  />
+</svg>

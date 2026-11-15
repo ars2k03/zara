@@ -2,6 +2,17 @@
   "name": "zara",
   "private": true,
   "version": "0.1.0",
+  "description": "Bangla-first desktop voice assistant built with Tauri, React, Groq, and Gemini",
+  "license": "MIT",
+  "author": "ars2k03",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ars2k03/zara.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ars2k03/zara/issues"
+  },
+  "homepage": "https://github.com/ars2k03/zara#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",

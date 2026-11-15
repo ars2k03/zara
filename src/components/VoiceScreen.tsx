@@ -31,6 +31,7 @@ export function VoiceScreen() {
     <main className="voice-screen">
       <div className="voice-glow" />
       <header className="voice-brand">
+        <img className="voice-logo" src="/logo.svg" alt="" width={72} height={72} />
         <p className="voice-kicker">ভয়েস অ্যাসিস্ট্যান্ট</p>
         <h1>Zara</h1>
         <p className="voice-phase">{phaseLabel(phase)}</p>
