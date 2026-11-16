@@ -1,5 +1,8 @@
+import { ConfirmActionModal } from "./ConfirmActionModal";
 import { ListeningIndicator } from "./ListeningIndicator";
 import { SpeechBubble } from "./SpeechBubble";
+import { ToolActivityBadge } from "./ToolActivityBadge";
+import { useToolEvents } from "../hooks/useToolEvents";
 import { useVoiceSession, type VoicePhase } from "../hooks/useVoiceSession";
 
 function phaseLabel(phase: VoicePhase) {
@@ -23,8 +26,12 @@ function phaseLabel(phase: VoicePhase) {
 
 export function VoiceScreen() {
   const { phase, status, interim, finalText, reply, error } = useVoiceSession();
+  const { activeTool, lastTool, pendingConfirm, confirmAction, firedTimers, dismissTimer } =
+    useToolEvents(phase);
+
   const userText = `${finalText} ${interim}`.trim();
-  const showUser = Boolean(userText) && (phase === "listening" || phase === "thinking" || phase === "speaking");
+  const showUser =
+    Boolean(userText) && (phase === "listening" || phase === "thinking" || phase === "speaking");
   const showAssistant = Boolean(reply) && (phase === "greeting" || phase === "speaking");
 
   return (
@@ -38,6 +45,24 @@ export function VoiceScreen() {
       </header>
 
       <ListeningIndicator active={phase === "listening"} />
+      <ToolActivityBadge activeTool={activeTool} lastTool={lastTool} />
+
+      {firedTimers.length > 0 && (
+        <div className="timer-alerts" role="alert">
+          {firedTimers.map((timer) => (
+            <div key={timer.id} className="timer-alert">
+              <span>সময় শেষ: {timer.label}</span>
+              <button
+                type="button"
+                className="timer-alert__close"
+                onClick={() => dismissTimer(timer.id)}
+              >
+                ঠিক আছে
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       <section className="voice-copy" aria-live="polite">
         {phase === "missing-keys" && status && (
@@ -60,6 +85,13 @@ export function VoiceScreen() {
           {showAssistant && <SpeechBubble role="assistant" text={reply} />}
         </div>
       </section>
+
+      <ConfirmActionModal
+        request={pendingConfirm}
+        onRespond={(approved) => {
+          void confirmAction(approved);
+        }}
+      />
     </main>
   );
 }

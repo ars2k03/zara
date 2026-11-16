@@ -5,6 +5,7 @@ mod error;
 mod gemini;
 mod providers;
 mod state;
+mod tools;
 
 use state::AppState;
 
@@ -21,6 +22,8 @@ pub fn run() {
             commands::tts_speak,
             commands::tts_stop,
             commands::llm_reply,
+            commands::tool_confirm_response,
+            commands::tool_execute,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,7 +1,9 @@
 mod llm;
 mod stt;
+mod tools;
 mod tts;
 
+use serde_json::Value;
 use tauri::{AppHandle, State};
 
 use crate::error::AppResult;
@@ -29,6 +31,29 @@ pub async fn tts_stop(state: State<'_, AppState>) -> AppResult<()> {
 }
 
 #[tauri::command]
-pub async fn llm_reply(messages: Vec<ChatMessage>) -> AppResult<String> {
-    llm::reply(messages).await
+pub async fn llm_reply(
+    app: AppHandle,
+    state: State<'_, AppState>,
+    messages: Vec<ChatMessage>,
+) -> AppResult<String> {
+    llm::reply(&app, &state, messages).await
+}
+
+#[tauri::command]
+pub async fn tool_confirm_response(
+    state: State<'_, AppState>,
+    id: String,
+    approved: bool,
+) -> AppResult<()> {
+    tools::confirm_response(state, id, approved).await
+}
+
+#[tauri::command]
+pub async fn tool_execute(
+    app: AppHandle,
+    state: State<'_, AppState>,
+    name: String,
+    args: Value,
+) -> AppResult<String> {
+    tools::execute(app, state, name, args).await
 }

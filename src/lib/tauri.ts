@@ -16,6 +16,24 @@ export interface ChatMessage {
   content: string;
 }
 
+export interface ToolActivityEvent {
+  name: string;
+  ok: boolean | null;
+  summary: string | null;
+}
+
+export interface ToolConfirmRequest {
+  id: string;
+  title: string;
+  detail: string;
+}
+
+export interface TimerFiredEvent {
+  id: string;
+  label: string;
+  seconds: number;
+}
+
 export function envStatus() {
   return invoke<EnvStatus>("env_status");
 }
@@ -30,6 +48,10 @@ export function sttStop() {
 
 export function llmReply(messages: ChatMessage[]) {
   return invoke<string>("llm_reply", { messages });
+}
+
+export function toolConfirmResponse(id: string, approved: boolean) {
+  return invoke<void>("tool_confirm_response", { id, approved });
 }
 
 export async function ttsSpeak(text: string, onStart?: () => void) {
@@ -59,4 +81,20 @@ export function onSttFinal(handler: (text: string) => void): Promise<UnlistenFn>
 
 export function onSttLevel(handler: (rms: number) => void): Promise<UnlistenFn> {
   return listen<number>("stt://level", (event) => handler(event.payload));
+}
+
+export function onToolStart(handler: (event: ToolActivityEvent) => void): Promise<UnlistenFn> {
+  return listen<ToolActivityEvent>("tool://start", (event) => handler(event.payload));
+}
+
+export function onToolFinish(handler: (event: ToolActivityEvent) => void): Promise<UnlistenFn> {
+  return listen<ToolActivityEvent>("tool://finish", (event) => handler(event.payload));
+}
+
+export function onToolConfirm(handler: (req: ToolConfirmRequest) => void): Promise<UnlistenFn> {
+  return listen<ToolConfirmRequest>("tool://confirm", (event) => handler(event.payload));
+}
+
+export function onTimerFired(handler: (event: TimerFiredEvent) => void): Promise<UnlistenFn> {
+  return listen<TimerFiredEvent>("timer://fired", (event) => handler(event.payload));
 }

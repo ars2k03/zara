@@ -25,6 +25,8 @@ export type VoicePhase =
   | "error";
 
 const GREETING = "হ্যালো, আমি জারা। বলুন, কীভাবে সাহায্য করতে পারি?";
+const LLM_FALLBACK_REPLY =
+  "দুঃখিত স্যার, আমি এই মুহূর্তে এই কাজটি করতে পারছি না। অনুগ্রহ করে পরে আবার চেষ্টা করুন।";
 const END_OF_SPEECH_MS = 2000;
 const POST_GREETING_WAIT_MS = 1000;
 const VOICE_RMS_THRESHOLD = 0.015;
@@ -200,10 +202,20 @@ export function useVoiceSession() {
             ...historyRef.current,
             { role: "user", content: transcript },
           ];
-          const answer = await llmReply(nextHistory);
+          let answer: string;
+          let succeeded = false;
+          try {
+            answer = await llmReply(nextHistory);
+            succeeded = true;
+          } catch (llmError) {
+            const message = llmError instanceof Error ? llmError.message : String(llmError);
+            answer = message.includes("দুঃখিত") ? message : LLM_FALLBACK_REPLY;
+          }
           if (!live()) break;
 
-          historyRef.current = [...nextHistory, { role: "assistant", content: answer }];
+          if (succeeded) {
+            historyRef.current = [...nextHistory, { role: "assistant", content: answer }];
+          }
           setPhase("speaking");
           setReply("");
           await ttsSpeak(answer, () => {
